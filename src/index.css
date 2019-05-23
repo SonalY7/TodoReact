@@ -11,3 +11,118 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.headDiv {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 3em;
+  border-bottom-color: rgb(177, 219, 255);
+  border-bottom-width: 0.04em;
+  border-bottom-style: dashed;
+  margin-right: 3em;
+}
+
+h1 {
+  font-size: 3em;
+  color: rgb(1, 88, 110);
+}
+
+.todoAddDiv {
+  display: flex;
+  justify-content: center;
+  margin-top: 6em;
+}
+
+.todoTextInput, .todoTextSubmit  {
+  font-size: 1.8em;
+  padding: 0.2em;
+}
+
+.todoTextInput {
+  border-block-color: rgb(73, 73, 73);
+  border-block-width: 0.01em;
+}
+.todoTextSubmit {
+  background-color: rgb(1, 88, 110);
+  color: white;
+}
+.todoList {
+  display: flex;
+  margin: 3em;
+  margin-top: 6em;
+}
+.markdone {
+  margin-right: 2em;
+}
+li {
+  color: rgb(1, 88, 110);
+  list-style-type: none;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 1em;
+}
+.crud {
+  margin-left: 1em;
+  font-size: 1em;
+  border: none;
+  outline: none;
+  padding: 0.4em;
+  background-color:rgb(240, 240, 240);
+}
+button :active{
+  border: none;
+  outline: none;
+}
+.inputUpdateText {
+  color: rgb(1, 88, 110);
+  font-size: 1.3em;
+  border-style: none;
+}
+.loginDiv {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  padding: 6em;
+  margin: 6em;
+  margin-left: 16em;
+  margin-right: 16em;
+  border-width: 0.2em;
+  border-style: solid;
+  border-color: aliceblue;
+  
+}
+.nameInput, .pswdInput {
+  font-size: 1.7em;
+  padding: 0.1em;
+  margin-bottom: 1em;
+}
+.loginButton, .signButton {
+  font-size: 1.2em;
+  border: none;
+  background-color: aliceblue;
+}
+.logout {
+  display: flex;
+  justify-content: flex-end;
+  margin: 2em;
+  margin-right: 4em;
+}
+.sublogout {
+  font-size: 1.4em;
+}
+
+a:link, a:visited, a:hover, a:active {
+  text-decoration: none;
+  color: rgb(1, 88, 110);
+}
+.loginErrDiv {
+  color: rgb(177, 37, 37);
+  margin-top: 2em;
+}
+h3 {
+  margin: 2em;
+}
+.logoutButton {
+  font-size: 0.7em;
+  background: none;
+}
