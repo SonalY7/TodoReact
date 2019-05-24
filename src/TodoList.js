@@ -1,141 +1,52 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-
-const url = "http://localhost:8000/api/todos";
 
 class TodoList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      items: [],
-      updatedValue: "",
-      checked: "f",
-      checkID: null,
-      currentItem: { text: "", key: "" }
-    };
+    this.handleInput = this.handleInput.bind(this);
   }
-
-  // add a todo item.
-  handleInput = e => {
-    const itemText = e.target.value;
-    const currentItem = { text: itemText, key: Date.now() };
-    this.setState({
-      currentItem
-    });
-  };
-
-  addItem = e => {
-    e.preventDefault();
-    const newItem = this.state.currentItem;
-    if (newItem.text !== "") {
-      fetch("http://localhost:8000/api/todos", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("auth_token")
-        },
-        body: JSON.stringify({ text: newItem.text })
-      })
-        .then(result => result.json())
-        .then(item => {
-          var prevState = this.state.items.slice();
-          prevState.push(item);
-          this.setState({ items: prevState });
-        })
-        .catch(err => err);
-    }
-  };
 
   // listing todos.
   componentDidMount() {
-    if (localStorage.getItem("auth_token") === null) {
-      return <Redirect to="/" />;
-    } else {
-      fetch(url, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("auth_token")
-        }
-      })
-        .then(result => result.json())
-        .then(items => this.setState({ items }))
-        .catch(err => err);
-    }
+    this.props.actions.makeTodoList();
   }
 
+  handleInput = e => {
+    const item = { text: e.target.value, key: Date.now() };
+    this.props.actions.setCurrentTodo(item);
+  };
+
+  // add a todo item.
+  handleAdd = e => {
+    e.preventDefault();
+    this.props.actions.addTodoItem();
+  };
+
   // delete a todo item.
-  deleteTodo(id) {
-    fetch(url + "/" + id, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("auth_token")
-      }
-    })
-      .then(result => result.json())
-      .then(item => {
-        let prevState = this.state.items.slice();
-        let index = prevState.indexOf(item);
-        prevState.splice(index, 1);
-        this.setState({ items: prevState });
-      });
+  handleDelete(id) {
+    this.props.actions.deleteTodoItem(id);
   }
 
   // update a todo item.
   handleUpdate = e => {
-    this.setState({ updatedValue: e.target.value });
+    this.props.actions.setUpdateTodo(e.target.value);
   };
 
-  updateTodo(id) {
-    const updatedText = this.state.updatedValue;
-    const checkDone = this.state.checked;
-    console.log(updatedText);
-    if (updatedText !== "") {
-      fetch(url + "/" + id, {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("auth_token")
-        },
-        body: JSON.stringify({ text: updatedText, done: checkDone })
-      }).then(console.log("updating"));
-    }
+  handleUpdateTodo(id) {
+    this.props.actions.updateTodo(id);
   }
 
   // check a todo item as done.
   handleCheck = e => {
-    this.setState(
-      { checked: e.target.checked, checkID: e.target.value },
-      this.markItDone
-    );
+    this.props.actions.markDone(e.target.value, e.target.checked);
   };
-
-  markItDone() {
-    const id = this.state.checkID;
-    const check = this.state.checked;
-    console.log(id);
-    fetch("http://localhost:8000/api/donetodos/" + id, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("auth_token")
-      },
-      body: JSON.stringify({ done: check })
-    }).then(console.log("checking....."));
-  }
 
   render() {
     return (
       <div>
         <div className="todoMainDiv">
           <div className="todoAddDiv">
-            <form onSubmit={this.addItem} className="todoForm">
+            <form onSubmit={this.handleAdd} className="todoForm">
               <input
                 placeholder="Task.."
                 ref={this.inputElement}
@@ -151,7 +62,7 @@ class TodoList extends Component {
         </div>
         <div className="todoList">
           <ul>
-            {this.state.items.map(todo => (
+            {this.props.items.map(todo => (
               <li key={todo.id}>
                 <input
                   className="markdone"
@@ -165,7 +76,7 @@ class TodoList extends Component {
                   className="inputUpdateText"
                   type="text"
                   defaultValue={todo.text}
-                  value={this.state.value}
+                  value={this.props.updatedText}
                   onChange={this.handleUpdate}
                   ref={this.inputElement}
                 />
@@ -173,7 +84,7 @@ class TodoList extends Component {
                   className="crud"
                   type="submit"
                   onClick={() => {
-                    this.updateTodo(todo.id);
+                    this.handleUpdateTodo(todo.id);
                   }}
                 >
                   Update
@@ -182,7 +93,7 @@ class TodoList extends Component {
                   className="crud"
                   type="submit"
                   onClick={() => {
-                    this.deleteTodo(todo.id);
+                    this.handleDelete(todo.id);
                   }}
                 >
                   Delete

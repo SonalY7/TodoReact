@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 class Logout extends Component {
-  handleLogout() {
-    localStorage.removeItem("auth_token");
-  }
+  handleLogout = () => {
+    this.props.handleLogout();
+  };
 
   render() {
     return (

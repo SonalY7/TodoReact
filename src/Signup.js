@@ -1,39 +1,17 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 
 class SignUp extends Component {
-  constructor() {
-    super();
-    this.state = {
-      username: "",
-      password: "",
-      token: ""
-    };
-  }
-
   handleUsername = e => {
-    this.setState({ username: e.target.value });
+    this.props.actions.setUsername(e.target.value);
   };
 
   handlePassword = e => {
-    this.setState({ password: e.target.value });
+    this.props.actions.setPassword(e.target.value);
   };
 
   handleSignUp = e => {
     e.preventDefault();
-    const username = this.state.username;
-    const password = this.state.password;
-    const { history } = this.props;
-    fetch("http://localhost:8000/api/users", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ username: username, password: password })
-    }).then(() => {
-      history.push("/");
-    });
+    this.props.actions.handleSignup();
   };
 
   render() {
@@ -56,15 +34,13 @@ class SignUp extends Component {
               onChange={this.handlePassword}
             />
           </div>
-          <Link to="/SignUp">
-            <button
-              className="signButton"
-              type="submit"
-              onClick={this.handleSignUp}
-            >
-              SignUp
-            </button>
-          </Link>
+          <button
+            className="signButton"
+            type="submit"
+            onClick={this.handleSignUp}
+          >
+            SignUp
+          </button>
         </form>
       </div>
     );
