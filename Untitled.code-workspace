@@ -5,6 +5,12 @@
 		},
 		{
 			"path": "/Users/sonalyadav/Projects/toDo"
+		},
+		{
+			"path": "/Users/sonalyadav/Projects/graphql-bookstore"
+		},
+		{
+			"path": "/Users/sonalyadav/Projects/graphql-todo"
 		}
 	],
 	"settings": {}

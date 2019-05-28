@@ -12,7 +12,7 @@ class LogoutContainer extends Component {
 
   handleLogout = () => {
     const url = baseUrl + "users/logout";
-    this.rest.handleDELETE(url).then(result => console.log(result));
+    this.rest.handleDELETE(url);
   };
 
   render() {

@@ -18,7 +18,6 @@ class LoginContainer extends Component {
 
   setUsername = username => {
     this.setState({ username: username });
-    console.log(this.state.username);
   };
 
   setPassword = password => {
@@ -52,7 +51,7 @@ class LoginContainer extends Component {
   render() {
     return (
       <section>
-        <Login actions={this.actions} error={this.error} />
+        <Login actions={this.actions} error={this.state.error} />
       </section>
     );
   }
