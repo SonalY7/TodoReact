@@ -1,53 +1,37 @@
 import React, { Component } from "react";
+import DeleteTodo from "./DeleteTodo";
+import UpdateTodo from "./UpdateTodo";
+import UpdateMarkedDone from "./updateMarkedDone";
 
 class TodoItem extends Component {
-  handleDelete(id) {
-    this.props.actions.deleteTodoItem(id);
-  }
-
-  handleUpdateTodo(id) {
-    this.props.actions.updateTodo(id, this.inputElement.value);
+  constructor(props) {
+    super(props);
+    this.state = {
+      updatedTodoItem: "",
+      todoId: 0
+    };
   }
 
   handleCheck = e => {
-    this.props.actions.markDone(e.target.value, e.target.checked);
+    UpdateMarkedDone(e.target.value, e.target.checked);
+  };
+
+  handleInputChange = e => {
+    this.setState({ updatedTodoItem: e.target.value });
   };
 
   render() {
     return (
       <div>
-        <input
-          className="markdone"
-          type="checkbox"
-          name="checkbox"
-          value={this.props.todo.id}
-          onChange={this.handleCheck}
-          defaultChecked={this.props.todo.done}
-        />
+        <UpdateMarkedDone todo={this.props.todo} />
         <input
           className="inputUpdateText"
           type="text"
           defaultValue={this.props.todo.text}
-          ref={input => (this.inputElement = input)}
+          onChange={this.handleInputChange}
         />
-        <button
-          className="crud"
-          type="submit"
-          onClick={() => {
-            this.handleUpdateTodo(this.props.todo.id);
-          }}
-        >
-          Update
-        </button>
-        <button
-          className="crud"
-          type="submit"
-          onClick={() => {
-            this.handleDelete(this.props.todo.id);
-          }}
-        >
-          Delete
-        </button>
+        <UpdateTodo id={this.props.todo.id} text={this.state.updatedTodoItem} />
+        <DeleteTodo id={this.props.todo.id} />
       </div>
     );
   }

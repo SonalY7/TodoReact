@@ -1,44 +1,23 @@
 import React, { Component } from "react";
 import TodoItemContainer from "./TodoItemContainer";
+import AddTodo from "./AddTodoContainer";
 
 class Todo extends Component {
-  componentDidMount() {
-    this.props.actions.makeTodoList();
-  }
-
-  handleAdd = e => {
-    e.preventDefault();
-    this.props.actions.addTodoItem(this.inputElement.value);
-  };
-
   render() {
     return (
       <div>
         <div className="todoMainDiv">
-          <div className="todoAddDiv">
-            <form onSubmit={this.handleAdd} className="todoForm">
-              <input
-                placeholder="Task.."
-                ref={input => (this.inputElement = input)}
-                className="todoTextInput"
-              />
-              <button type="submit" className="todoTextSubmit">
-                Write Task
-              </button>
-            </form>
-          </div>
+          <AddTodo />
         </div>
         <div className="todoList">
           <ul>
-            {this.props.items.map(todo => (
-              <li key={todo.id}>
-                <TodoItemContainer
-                  todo={todo}
-                  items={this.props.items}
-                  makeTodoList={this.props.actions.makeTodoList}
-                />
-              </li>
-            ))}
+            {this.props.todo.map(currentTodo => {
+              return (
+                <li key={currentTodo.id}>
+                  <TodoItemContainer todoItem={currentTodo} />
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>

@@ -8,17 +8,33 @@ import NotFound from "./NotFound";
 import * as serviceWorker from "./serviceWorker";
 import SignupContainer from "./SignupContainer";
 
+import { ApolloProvider } from "react-apollo";
+import { ApolloClient } from "apollo-client";
+import { createHttpLink } from "apollo-link-http";
+import { InMemoryCache } from "apollo-cache-inmemory";
+
+const httpLink = createHttpLink({
+  uri: "http://localhost:4000"
+});
+
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache()
+});
+
 const routing = (
-  <Router>
-    <div>
-      <Switch>
-        <Route exact path="/" component={LoginContainer} />
-        <Route path="/todos" component={App} />
-        <Route path="/SignUp" component={SignupContainer} />
-        <Route component={NotFound} />
-      </Switch>
-    </div>
-  </Router>
+  <ApolloProvider client={client}>
+    <Router>
+      <div>
+        <Switch>
+          <Route exact path="/" component={LoginContainer} />
+          <Route path="/todos" component={App} />
+          <Route path="/SignUp" component={SignupContainer} />
+          <Route component={NotFound} />
+        </Switch>
+      </div>
+    </Router>
+  </ApolloProvider>
 );
 
 ReactDOM.render(routing, document.getElementById("root"));
